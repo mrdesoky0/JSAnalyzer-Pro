@@ -1,4 +1,4 @@
-# JS Analyzer - Burp Suite Extension
+# JS Analyzer - Burp Suite Extension by Jensec (https://x.com/_jensec)
 
 A powerful Burp Suite extension for JavaScript static analysis. Extracts API endpoints, URLs, secrets, and email addresses from JavaScript files with intelligent noise filtering. The goal is reduce noise as much as possible to ensure the accuracy
 

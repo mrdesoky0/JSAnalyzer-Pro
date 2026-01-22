@@ -36,35 +36,119 @@ from ui.results_panel import ResultsPanel
 # Focus on high-value API endpoints only
 
 ENDPOINT_PATTERNS = [
-    # API endpoints
-    re.compile(r'["\']((?:https?:)?//[^"\']+/api/[a-zA-Z0-9/_-]+)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/api/v?\d*/[a-zA-Z0-9/_-]{2,})["\']', re.IGNORECASE),
-    re.compile(r'["\'](/v\d+/[a-zA-Z0-9/_-]{2,})["\']', re.IGNORECASE),
-    re.compile(r'["\'](/rest/[a-zA-Z0-9/_-]{2,})["\']', re.IGNORECASE),
-    re.compile(r'["\'](/graphql[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    
-    # OAuth/Auth endpoints
-    re.compile(r'["\'](/oauth[0-9]*/[a-zA-Z0-9/_-]+)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/auth[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/login[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/logout[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/token[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    
-    # Sensitive paths
-    re.compile(r'["\'](/admin[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/dashboard[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/internal[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/debug[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/config[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/backup[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/private[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/upload[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/download[a-zA-Z0-9/_-]*)["\']', re.IGNORECASE),
-    
-    # Well-known paths
-    re.compile(r'["\'](/\.well-known/[a-zA-Z0-9/_-]+)["\']', re.IGNORECASE),
-    re.compile(r'["\'](/idp/[a-zA-Z0-9/_-]+)["\']', re.IGNORECASE),
+    re.compile(
+        r'["\'`]((?:https?:)?//[^"\'`]+?/api(?:/v\d+)?/[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]+)["\'`]',
+        re.IGNORECASE
+    ),
+
+    re.compile(
+        r'["\'`](/api(?:/v\d+)?/[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]+)["\'`]',
+        re.IGNORECASE
+    ),
+
+    re.compile(
+        r'["\'`](/v\d+/[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]+)["\'`]',
+        re.IGNORECASE
+    ),
+
+    re.compile(
+        r'["\'`](/rest/[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]+)["\'`]',
+        re.IGNORECASE
+    ),
+
+    re.compile(
+        r'["\'`](/graphql[^\s"\'`<>]*)["\'`]',
+        re.IGNORECASE
+    ),
+
+    re.compile(
+        r'["\'`](/oauth[0-9]*/[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]+)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/auth[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/login[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/logout[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/token[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+
+    re.compile(
+        r'["\'`](/admin[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/dashboard[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/internal[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/debug[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/config[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/backup[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/private[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/upload[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/download[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]*)["\'`]',
+        re.IGNORECASE
+    ),
+
+    re.compile(
+        r'["\'`](/\.well-known/[A-Za-z0-9/_\-\.~]+)["\'`]',
+        re.IGNORECASE
+    ),
+    re.compile(
+        r'["\'`](/idp/[A-Za-z0-9/_\-\.~]+)["\'`]',
+        re.IGNORECASE
+    ),
+
+    re.compile(
+        r'(?:(?:=|\(|,|\s|:))(/(?:api|admin|auth|internal|rest)(?:/v\d+)?/[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]+)',
+        re.IGNORECASE
+    ),
+
+    re.compile(
+        r'["\'`](/(?:api|admin|internal|auth|rest)/[A-Za-z0-9/_\-\.~]+)["\'`]\s*\+',
+        re.IGNORECASE
+    ),
+
+    re.compile(
+        r'(?:fetch|axios\.(?:get|post|put|delete|patch)|open)\s*\(\s*["\'`](/[^"\'`]+)["\'`]',
+        re.IGNORECASE
+    ),
+
+    re.compile(
+        r'["\'`]((?:\/\/|wss?:\/\/)[^\s"\'`<>]+?/api(?:/v\d+)?/[A-Za-z0-9/_\-\.~!$&\'()*+,;=:@%{}:\[\]\?=#]+)["\'`]',
+        re.IGNORECASE
+    ),
 ]
+
 
 # URL patterns - full URLs
 URL_PATTERNS = [
@@ -77,46 +161,138 @@ URL_PATTERNS = [
     re.compile(r'(https?://storage\.googleapis\.com/[^\s"\'<>]*)'),
 ]
 
-# Secret patterns
+# Enhanced secret patterns - high coverage, context-aware where useful
 SECRET_PATTERNS = [
-    (re.compile(r'(AKIA[0-9A-Z]{16})'), "AWS Key"),
-    (re.compile(r'(AIza[0-9A-Za-z\-_]{35})'), "Google API"),
-    (re.compile(r'(sk_live_[0-9a-zA-Z]{24,})'), "Stripe Live"),
-    (re.compile(r'(ghp_[0-9a-zA-Z]{36})'), "GitHub PAT"),
-    (re.compile(r'(xox[baprs]-[0-9a-zA-Z\-]{10,48})'), "Slack Token"),
+    # AWS Access Key ID (classic)
+    (re.compile(r'(AKIA[0-9A-Z]{16})'), "AWS Access Key ID"),
+
+    # AWS Secret Access Key (context-aware: look for common keywords near the key)
+    (re.compile(r'(?i)(?:aws_secret_access_key|aws_secret|secret_access_key|aws_secret_key|aws_key|aws.secret).{0,80}([A-Za-z0-9/+=]{40})', re.IGNORECASE | re.DOTALL), "AWS Secret Access Key (context)"),
+
+    # AWS session token prefix (temporary credentials)
+    (re.compile(r'(ASIA[0-9A-Z]{16})'), "AWS Session Token (ASIA)"),
+
+    # Google API key (public-ish key)
+    (re.compile(r'(AIza[0-9A-Za-z\-_]{35})'), "Google API Key (AIza...)"),
+
+    # GCP service account private key presence (JSON style)
+    (re.compile(r'\"private_key\"\s*:\s*\"-----BEGIN (?:RSA )?PRIVATE KEY-----', re.IGNORECASE), "GCP Service Account Private Key (JSON)"),
+
+    # Google OAuth tokens / Access tokens (ya29.)
+    (re.compile(r'\b(ya29\.[A-Za-z0-9\-_]{20,})\b'), "Google OAuth2 Access Token (ya29.)"),
+
+    # Firebase Server Key (legacy) and Android/iOS keys (context-aware)
+    (re.compile(r'(?i)(?:firebase|server_key|fcm).{0,40}([A-Za-z0-9:\-_]{20,200})', re.IGNORECASE | re.DOTALL), "Firebase / FCM Key (context)"),
+
+    # Stripe secret keys (live/test)
+    (re.compile(r'\b(sk_live_[0-9a-zA-Z]{24,})\b'), "Stripe Secret Key (live)"),
+    (re.compile(r'\b(sk_test_[0-9a-zA-Z]{24,})\b'), "Stripe Secret Key (test)"),
+
+    # Stripe publishable keys (less sensitive but useful)
+    (re.compile(r'\b(pk_live_[0-9a-zA-Z]{24,})\b'), "Stripe Publishable Key (live)"),
+    (re.compile(r'\b(pk_test_[0-9a-zA-Z]{24,})\b'), "Stripe Publishable Key (test)"),
+
+    # SendGrid API Key
+    (re.compile(r'\b(SG\.[A-Za-z0-9_-]{16,})\b'), "SendGrid API Key (SG.)"),
+
+    # Mailgun API key style
+    (re.compile(r'\b(key-[0-9a-zA-Z]{32})\b'), "Mailgun API Key (key-)"),
+
+    # GitHub tokens (modern prefixes)
+    (re.compile(r'\b(ghp_[0-9A-Za-z]{36,}|gho_[0-9A-Za-z]{36,}|ghs_[0-9A-Za-z]{36,}|ghu_[0-9A-Za-z]{36,}|ghr_[0-9A-Za-z]{36,})\b'), "GitHub Token (ghp_/gho_/ghs_/ghu_/ghr_)"),
+
+    # GitHub older style personal access token (40 hex) - only if context contains 'github' or 'ghp' nearby
+    (re.compile(r'(?i)(?:github|ghp|personal[_\- ]token|github_token).{0,60}([0-9a-fA-F]{40})', re.IGNORECASE | re.DOTALL), "GitHub PAT (40hex, context)"),
+
+    # GitHub Gist / OAuth patterns
+    (re.compile(r'\b(gitlab-ci-token:[A-Za-z0-9\-_]{10,})\b', re.IGNORECASE), "GitLab CI Token (gitlab-ci-token:)"),
+
+    # Slack tokens (covers xoxp, xoxb, xoxa, xoxr, xapp)
+    (re.compile(r'\b(xox[pboa|r|a]?-[0-9A-Za-z\-]{10,64})\b'), "Slack Token (xox...)"),
+
+    # Discord bot tokens (Bot token style)
+    (re.compile(r'([A-Za-z0-9_-]{24}\.[A-Za-z0-9_-]{6}\.[A-Za-z0-9_-]{27})'), "Discord Bot Token"),
+
+    # JWT (rough pattern)
     (re.compile(r'(eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]+)'), "JWT"),
-    (re.compile(r'(-----BEGIN (?:RSA |EC )?PRIVATE KEY-----)'), "Private Key"),
-    (re.compile(r'(mongodb(?:\+srv)?://[^\s"\'<>]+)'), "MongoDB"),
-    (re.compile(r'(postgres(?:ql)?://[^\s"\'<>]+)'), "PostgreSQL"),
-    (re.compile(r'(?i)algolia.{0,32}([a-z0-9]{32})\b'), "Algolia Admin API Key"),
-    (re.compile(r'(?i)algolia.{0,16}([A-Z0-9]{10})\b'), "Algolia Application ID"),
-    (re.compile(r'(?i)cloudflare.{0,32}(?:secret|private|access|key|token).{0,32}([a-z0-9_-]{38,42})\b'), "Cloudflare API Token"),
-    (re.compile(r'(?i)(?:cloudflare|x-auth-user-service-key).{0,64}(v1\.0-[a-z0-9._-]{160,})\b'), "Cloudflare Service Key"),
-    (re.compile(r'(mysql:\/\/[a-z0-9._%+\-]+:[^\s:@]+@(?:\[[0-9a-f:.]+\]|[a-z0-9.-]+)(?::\d{2,5})?(?:\/[^\s"\'?:]+)?(?:\?[^\s"\']*)?)'), "MySQL URI with Credentials"),
-    (re.compile(r'\b(sgp_[A-Z0-9_-]{60,70})\b'), "Segment Public API Token"),
-    (re.compile(r'(?i)(?:segment|sgmt).{0,16}(?:secret|private|access|key|token).{0,16}([A-Z0-9_-]{40,50}\.[A-Z0-9_-]{40,50})'), "Segment API Key"),
-    (re.compile(r'(?i)(?:facebook|fb).{0,8}(?:app|application).{0,16}(\d{15})\b'), "Facebook App ID"),
-    (re.compile(r'(?i)(?:facebook|fb).{0,32}(?:api|app|application|client|consumer|secret|key).{0,32}([a-z0-9]{32})\b'), "Facebook Secret Key"),
+
+    # PGP / OpenSSL / RSA private key blocks (multi-line)
+    (re.compile(r'-----BEGIN (?:RSA |EC )?PRIVATE KEY-----[\s\S]{20,}-----END (?:RSA |EC )?PRIVATE KEY-----'), "Private Key Block (PEM)"),
+
+    # PGP private key block (-----BEGIN PGP PRIVATE KEY BLOCK-----)
+    (re.compile(r'-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]{100,}-----END PGP PRIVATE KEY BLOCK-----'), "PGP Private Key Block"),
+
+    # Generic PEM private key (context)
+    (re.compile(r'(?i)private_key.{0,40}-----BEGIN (?:RSA |EC )?PRIVATE KEY-----', re.IGNORECASE | re.DOTALL), "Private Key (context)"),
+
+    # MongoDB / MongoDB+SRV URIs with credentials
+    (re.compile(r'(mongodb(?:\+srv)?://[^\s"\'<>]+)'), "MongoDB URI (with creds?)"),
+
+    # Postgres / MySQL / Redis URIs with credentials
+    (re.compile(r'(postgres(?:ql)?://[^\s"\'<>]+)'), "PostgreSQL URI"),
+    (re.compile(r'(mysql:\/\/[a-z0-9._%+\-]+:[^\s:@]+@(?:\[[0-9a-f:.]+\]|[a-z0-9.-]+)(?::\d{2,5})?(?:\/[^\s"\'?:]+)?(?:\?[^\s"\']*)?)', re.IGNORECASE), "MySQL URI with Credentials"),
+    (re.compile(r'(redis:\/\/(?:[^:\s@]+:[^@\s]+@)?[^\s"\'<>]+)'), "Redis URI (with creds)"),
+
+    # Generic Basic Auth in URL (user:pass@host)
+    (re.compile(r'([a-zA-Z0-9._%+\-]+:[^@\s]{6,}@(?:[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|localhost))'), "URL with Basic Auth (user:pass@host)"),
+
+    # Heroku API key (HEROKU_API_KEY often 32 hex)
+    (re.compile(r'(?i)(?:heroku|HEROKU_API_KEY).{0,40}([0-9a-f]{32})', re.IGNORECASE | re.DOTALL), "Heroku API Key (context)"),
+
+    # Twilio Account SID and Auth Token (SID starts with AC, Auth Token hex)
+    (re.compile(r'\b(AC[0-9a-fA-F]{32})\b'), "Twilio Account SID (AC...)"),
+    (re.compile(r'(?i)(?:twilio).{0,40}([0-9a-fA-F]{32})', re.IGNORECASE | re.DOTALL), "Twilio Auth Token (context)"),
+
+    # Firebase Web API key (AIza... covered) and Firebase config keys (context)
+    (re.compile(r'(?i)firebase.{0,40}([A-Za-z0-9:_\-\.\$]{20,200})', re.IGNORECASE | re.DOTALL), "Firebase config key (context)"),
+
+    # Cloudflare API tokens (context aware)
+    (re.compile(r'(?i)(?:cloudflare|cfapi|CF_API_TOKEN|cloudflare_token).{0,40}([A-Za-z0-9_\-]{16,64})', re.IGNORECASE | re.DOTALL), "Cloudflare API Token (context)"),
+
+    # Azure Storage Account Key (base64-like, context)
+    (re.compile(r'(?i)(?:azure|storage|account_key|storage_access_key).{0,40}([A-Za-z0-9+/=]{40,120})', re.IGNORECASE | re.DOTALL), "Azure Storage Key (context, base64-like)"),
+
+    # Generic high-entropy base64/hex tokens—but only if preceded by common keywords (to reduce false positives)
+    (re.compile(r'(?i)(?:api[_\- ]?key|apikey|access[_\- ]?token|access[_\- ]?key|client[_\- ]?secret|client[_\- ]?id|secret[_\- ]?key|auth[_\- ]?token|bearer|credential|private[_\- ]?key).{0,80}([A-Za-z0-9+/=]{20,300})', re.IGNORECASE | re.DOTALL), "High-entropy token (context-aware)"),
+
+    # Facebook tokens and app ids (various formats)
     (re.compile(r'(EAACEdEose0cBA[A-Z0-9]{20,})\b'), "Facebook Access Token"),
-    (re.compile(r'\b(ya29\.[a-z0-9_-]{30,})\b'), "Google OAuth2 Access Token"),
+    (re.compile(r'(?i)(?:facebook|fb).{0,32}(?:api|app|application|client|consumer|secret|key).{0,32}([a-z0-9]{32})\b', re.IGNORECASE | re.DOTALL), "Facebook Secret Key (context)"),
+    (re.compile(r'(?i)(?:facebook|fb).{0,8}(?:app|application).{0,16}(\d{15})\b', re.IGNORECASE | re.DOTALL), "Facebook App ID (context)"),
+
+    # Segment / Analytics tokens
+    (re.compile(r'\b(sgp_[A-Z0-9_-]{60,70})\b'), "Segment Public API Token"),
+    (re.compile(r'(?i)(?:segment|sgmt).{0,16}(?:secret|private|access|key|token).{0,16}([A-Z0-9_-]{40,50}\.[A-Z0-9_-]{40,50})', re.IGNORECASE | re.DOTALL), "Segment API Key (context)"),
+
+    # Generic OAuth Bearer tokens (Bearer <token>) - capture token part
+    (re.compile(r'(?i)bearer\s+([A-Za-z0-9\-_\.]{20,300})', re.IGNORECASE), "Bearer Token (Authorization header)"),
 ]
+
 
 # Email pattern
 EMAIL_PATTERN = re.compile(r'([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})')
 
-# File patterns - detect references to sensitive file types
+# File patterns - Pro
 FILE_PATTERNS = re.compile(
-    r'["\']([a-zA-Z0-9_/.-]+\.(?:'
-    r'sql|csv|xlsx|xls|json|xml|yaml|yml|'  # Data files
-    r'txt|log|conf|config|cfg|ini|env|'      # Config/logs
-    r'bak|backup|old|orig|copy|'              # Backups
-    r'key|pem|crt|cer|p12|pfx|'               # Certificates
-    r'doc|docx|pdf|'                          # Documents
-    r'zip|tar|gz|rar|7z|'                     # Archives
-    r'sh|bat|ps1|py|rb|pl'                    # Scripts
-    r'))["\']',
+    r'(?:["\'`]|^)'  # optional quote or line start
+    r'('
+    r'(?:[A-Za-z0-9_\-./%\\]+?\.(?:'
+    r'sql|db|sqlite3?|bak|backup|old|orig|copy|'
+    r'csv|tsv|xlsx|xls|ods|odt|json|ndjson|ndj|xml|'
+    r'yaml|yml|toml|props|properties|env|ini|conf|config|cfg|credentials|secrets|passwd|htpasswd|git-credentials|'
+    r'pem|key|crt|cer|p12|pfx|jks|keystore|asc|gpg|pub|ovpn|ovpn\.conf|pem\.enc|pem\.bak|'
+    r'db|db3|sql\.gz|sql\.zip|log|txt|rtf|md|'
+    r'zip|tar|tgz|tar\.gz|gz|bz2|rar|7z|cab|war|jar|ear|apk|ipa|'
+    r'doc|docx|pdf|ppt|pptx|xlsm|xlsb|msg|pst|'
+    r'sh|bash|zsh|bat|cmd|ps1|py|php|rb|pl|go|java|class)'
+    r')'
+    r'(?:\?[^\s"\'`<>]*)?(?:#[^\s"\'`<>]*)?'
+    r')'
+    r'(?:["\'`]|$)',
     re.IGNORECASE
 )
+
+
 
 # ==================== NOISE FILTERS ====================
 # Extensive list of patterns to EXCLUDE
